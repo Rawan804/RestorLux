@@ -5,13 +5,18 @@
    ========================================================== */
 
 /* ----------------------------------------------------------
-   1. GOOGLE FONTS IMPORT
+   1. FONTS
+   Loaded via <link> tags in index.html (not @import) so the
+   browser can fetch them in parallel with this stylesheet
+   instead of discovering them only after this file parses —
+   this was the main cause of the slower load in some browsers.
+   Icons are inline SVG (see section 4b) — no icon font needed.
    ---------------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Tajawal:wght@300;400;700&display=swap');
 
 /* ----------------------------------------------------------
    2. LIGHT THEME VARIABLES (default)
    ---------------------------------------------------------- */
+   
 :root {
   /* Brand */
   --gold:            #B8860B;
@@ -31,7 +36,7 @@
   --text-muted:      #7A7A7A;
 
   /* Light theme nav */
-  --nav-bg:          rgba(15,23,42,0.92);
+  --nav-bg:          rgba(15,23,42,0.97);
   --nav-link:        rgba(255,255,255,0.82);
 
   /* Light theme card */
@@ -59,7 +64,13 @@
   --trans-mid:       0.35s ease;
   --trans-slow:      0.55s ease;
   --shadow-gold:     0 4px 20px rgba(184,134,11,0.25);
-  --section-pad:     100px 0;
+
+  /* Fluid section/container spacing — scales continuously with
+     the viewport instead of jumping between fixed breakpoint values */
+  --section-pad:     clamp(56px, 8vw, 100px) 0;
+  --container-pad:   clamp(1.25rem, 4vw, 2rem);
+  --gap-lg:           clamp(2rem, 5vw, 5rem);
+
   --container-max:   1280px;
   --font-serif:      'Playfair Display', Georgia, serif;
   --font-body:       'Lato', 'Helvetica Neue', sans-serif;
@@ -71,28 +82,28 @@
    Applied when #theme-toggle checkbox is checked
    ---------------------------------------------------------- */
 #theme-toggle:checked ~ .site-wrapper {
-  --bg-page:         #0d0d0d;
-  --bg-surface:      #1a1a1a;
-  --bg-alt:          #141414;
-  --bg-dark-section: #080808;
+  --bg-page:         #111827;
+  --bg-surface:      #1a2030;
+  --bg-alt:          #151c2b;
+  --bg-dark-section: #0d1117;
 
-  --text-heading:    #F5E6B8;
-  --text-body:       #C8C0A8;
-  --text-muted:      #888070;
+  --text-heading:    #EDE0C4;
+  --text-body:       #C4BBA8;
+  --text-muted:      #7E7668;
 
-  --nav-bg:          rgba(8,8,8,0.96);
-  --nav-link:        rgba(245,230,184,0.80);
+  --nav-bg:          rgba(10,14,26,0.98);
+  --nav-link:        rgba(237,224,196,0.78);
 
-  --card-bg:         #1e1e1e;
-  --card-border:     rgba(184,134,11,0.20);
-  --card-shadow:     0 4px 24px rgba(0,0,0,0.40);
-  --card-shadow-hover: 0 12px 40px rgba(184,134,11,0.15);
+  --card-bg:         #1a2030;
+  --card-border:     rgba(184,134,11,0.18);
+  --card-shadow:     0 4px 24px rgba(0,0,0,0.50);
+  --card-shadow-hover: 0 12px 40px rgba(184,134,11,0.12);
 
-  --input-bg:        #252525;
-  --input-border:    rgba(184,134,11,0.30);
-  --form-bg:         #181818;
+  --input-bg:        #1e2638;
+  --input-border:    rgba(184,134,11,0.28);
+  --form-bg:         #161d2c;
 
-  --footer-bg:       #080808;
+  --footer-bg:       #090d16;
   --overlay-hero:    rgba(0,0,0,0.65);
   --overlay-card:    rgba(0,0,0,0.55);
 }
@@ -124,12 +135,26 @@ html {
   font-family: var(--font-body);
   line-height: 1.7;
   overflow-x: hidden;
-  transition: background-color var(--trans-mid), color var(--trans-mid);
 }
 
 img {
   max-width: 100%;
   display: block;
+}
+
+/* `picture` is only ever used as a plain wrapper around one <img>;
+   it should never impose its own height, otherwise it can collapse
+   inside containers that don't have an explicit height (this was
+   hiding the facility-card text under a zero-height image slot).
+   Every component sizes its own <img> explicitly instead. */
+picture {
+  display: block;
+  width: 100%;
+}
+
+picture img {
+  width: 100%;
+  object-fit: cover;
 }
 
 a {
@@ -145,6 +170,34 @@ button {
   border: none;
   background: none;
   font-family: inherit;
+}
+
+/* Icons — inline SVG, same visual language MUI's own icon set uses
+   (stroke-based Material Design glyphs). No font to download, no
+   fallback-text flash, crisp at any size, and colors via currentColor
+   so each icon inherits whatever color its context sets. */
+.icon-wrap {
+  display: inline-flex;
+  align-items: end;
+  justify-content: center;
+  line-height: 1;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 1.15em;
+  height: 1.15em;
+  color: currentColor;
+}
+
+/* Star rating icons in testimonials */
+.star-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--gold);
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 /* ----------------------------------------------------------
@@ -173,7 +226,7 @@ p {
 [lang="ar"], .lang-ar {
   font-family: var(--font-arabic);
   direction: rtl;
-  text-align: right;
+  text-align: start;
 }
 
 /* ----------------------------------------------------------
@@ -182,7 +235,7 @@ p {
 .container {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding-inline: var(--container-pad);
 }
 
 .section-label {
@@ -212,13 +265,13 @@ p {
   width: 52px;
   height: 2px;
   background: var(--gold);
-  margin: 1.2rem 0 2rem;
+  margin-block: 1.2rem 2rem;
 }
 
-.gold-line--center { margin: 1.2rem auto 2rem; }
+.gold-line--center { margin-inline: auto; }
 
 .text-center { text-align: center; }
-.text-center .section-subtitle { margin: 0 auto; }
+.text-center .section-subtitle { margin-inline: auto; }
 
 /* Divider with diamond */
 .divider {
@@ -255,7 +308,9 @@ p {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   border-radius: var(--radius-sm);
-  transition: all var(--trans-mid);
+  transition: background var(--trans-fast), color var(--trans-fast),
+              border-color var(--trans-fast), transform var(--trans-fast),
+              box-shadow var(--trans-fast);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -304,7 +359,7 @@ p {
 .controls-bar {
   position: fixed;
   top: 50%;
-  right: 1.2rem;
+  inset-inline-end: 1.2rem;
   transform: translateY(-50%);
   z-index: 2000;
   display: flex;
@@ -327,6 +382,7 @@ p {
   box-shadow: var(--card-shadow);
   transition: all var(--trans-fast);
   font-size: 1.1rem;
+  color: var(--gold);
   user-select: none;
 }
 
@@ -338,11 +394,11 @@ p {
 }
 
 /* Show sun icon in light mode, moon in dark */
-.theme-icon-light { display: inline; }
+.theme-icon-light { display: inline-flex; }
 .theme-icon-dark  { display: none;   }
 
 #theme-toggle:checked ~ .site-wrapper .theme-icon-light { display: none; }
-#theme-toggle:checked ~ .site-wrapper .theme-icon-dark  { display: inline; }
+#theme-toggle:checked ~ .site-wrapper .theme-icon-dark  { display: inline-flex; }
 
 /* Language label text */
 .lang-label-en { display: inline; }
@@ -370,51 +426,17 @@ span.lang-ar { display: none; }
 #lang-toggle:checked ~ .site-wrapper span.lang-en { display: none; }
 #lang-toggle:checked ~ .site-wrapper span.lang-ar { display: inline; }
 
-/* RTL layout adjustments when Arabic is active */
+/* ----------------------------------------------------------
+   RTL LAYOUT — CSS logical properties
+   Setting `direction: rtl` on .site-wrapper is enough to flip
+   flex/grid inline-axis ordering and text alignment natively;
+   every position/spacing rule below uses inset-inline-*,
+   margin-inline-*, padding-inline-* and text-align:start/end
+   so the whole layout mirrors correctly with no per-property
+   overrides required.
+   ---------------------------------------------------------- */
 #lang-toggle:checked ~ .site-wrapper {
   direction: rtl;
-}
-
-#lang-toggle:checked ~ .site-wrapper .navbar {
-  flex-direction: row-reverse;
-}
-
-#lang-toggle:checked ~ .site-wrapper .navbar__links {
-  flex-direction: row-reverse;
-}
-
-#lang-toggle:checked ~ .site-wrapper .about__inner {
-  direction: rtl;
-}
-
-#lang-toggle:checked ~ .site-wrapper .about__badge {
-  right: auto;
-  left: -1.5rem;
-}
-
-#lang-toggle:checked ~ .site-wrapper .gold-line {
-  margin-left: auto;
-  margin-right: 0;
-}
-
-#lang-toggle:checked ~ .site-wrapper .footer__col-title::after {
-  left: auto;
-  right: 0;
-}
-
-#lang-toggle:checked ~ .site-wrapper .footer__links a:hover {
-  padding-left: 0;
-  padding-right: 4px;
-}
-
-#lang-toggle:checked ~ .site-wrapper .room-card__badge {
-  right: auto;
-  left: 1rem;
-}
-
-#lang-toggle:checked ~ .site-wrapper .event-card__capacity {
-  left: auto;
-  right: 1rem;
 }
 
 /* ----------------------------------------------------------
@@ -427,12 +449,11 @@ span.lang-ar { display: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.1rem 3rem;
+  padding: clamp(0.75rem, 2vw, 1.1rem) clamp(1.25rem, 4vw, 3rem);
   background: var(--nav-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(184,134,11,0.18);
   transition: background var(--trans-mid), padding var(--trans-mid);
+  gap: 1rem;
 }
 
 .navbar__logo {
@@ -481,7 +502,7 @@ span.lang-ar { display: none; }
 .navbar__links a::after {
   content: '';
   position: absolute;
-  bottom: 2px; left: 50%;
+  bottom: 2px; inset-inline-start: 50%;
   transform: translateX(-50%);
   width: 0; height: 1.5px;
   background: var(--gold);
@@ -503,20 +524,55 @@ span.lang-ar { display: none; }
 .navbar__toggle-label {
   display: none;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
   order: 5;
+  z-index: 1100;
+  flex-shrink: 0;
 }
 .navbar__toggle-label span {
   display: block;
-  width: 24px; height: 2px;
+  width: 22px; height: 2px;
   background: #fff;
   border-radius: 2px;
-  transition: all var(--trans-mid);
+  transition: transform var(--trans-mid), opacity var(--trans-mid);
+  transform-origin: center;
 }
-.navbar__toggle:checked ~ .navbar__links {
-  display: flex;
+
+/* Hamburger → X animation when open */
+.navbar__toggle:checked ~ .navbar__toggle-label span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar__toggle:checked ~ .navbar__toggle-label span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.navbar__toggle:checked ~ .navbar__toggle-label span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Close button inside menu — hidden on desktop */
+.navbar__close-item  { display: none; }
+.navbar__close-btn   { display: none; }
+
+/* Mobile CTA inside menu — hidden on desktop */
+.navbar__menu-cta    { display: none; }
+
+/* Click-outside backdrop — invisible, full-screen, sits behind the menu */
+.navbar__backdrop { display: none; }
+
+/* Best-effort CSS-only "close on scroll" via scroll-driven animations */
+@supports (animation-timeline: scroll()) {
+  @keyframes nav-close-on-scroll-flex {
+    from { transform: translateX(0); visibility: visible; }
+    to   { transform: translateX(100%); visibility: hidden; }
+  }
+  @keyframes nav-close-on-scroll-block {
+    from { opacity: 1; pointer-events: auto; }
+    to   { opacity: 0; pointer-events: none; }
+  }
 }
 
 /* ----------------------------------------------------------
@@ -535,11 +591,15 @@ span.lang-ar { display: none; }
 .hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.pexels.com/photos/32177991/pexels-photo-32177991.png');
+  background-image: url('https://images.pexels.com/photos/32177991/pexels-photo-32177991.png?auto=compress&cs=tinysrgb&w=1920&fm=webp');
+  background-image: image-set(
+    url('https://images.pexels.com/photos/32177991/pexels-photo-32177991.png?auto=compress&cs=tinysrgb&w=1920&fm=avif') type('image/avif'),
+    url('https://images.pexels.com/photos/32177991/pexels-photo-32177991.png?auto=compress&cs=tinysrgb&w=1920&fm=webp') type('image/webp')
+  );
   background-size: cover;
   background-position: center;
   transform: scale(1.04);
-  transition: transform 8s ease;
+  transition: transform var(--trans-slow);
 }
 
 .hero:hover .hero__bg { transform: scale(1); }
@@ -554,7 +614,7 @@ span.lang-ar { display: none; }
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 0 1.5rem;
+  padding-inline: 1.5rem;
   max-width: 860px;
 }
 
@@ -627,8 +687,8 @@ span.lang-ar { display: none; }
 
 .about__inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  gap: var(--gap-lg);
   align-items: center;
 }
 
@@ -639,7 +699,7 @@ span.lang-ar { display: none; }
 
 .about__image {
   width: 100%;
-  height: 560px;
+  height: clamp(300px, 40vw, 560px);
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--card-shadow-hover);
@@ -657,7 +717,7 @@ span.lang-ar { display: none; }
 .about__badge {
   position: absolute;
   bottom: -1.5rem;
-  right: -1.5rem;
+  inset-inline-end: -1.5rem;
   background: var(--gold);
   color: #fff;
   padding: 1.8rem 2rem;
@@ -683,11 +743,11 @@ span.lang-ar { display: none; }
   margin-top: 0.3rem;
 }
 
-.about__content { padding-right: 1rem; }
+.about__content { padding-inline-end: 1rem; }
 
 .about__stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   gap: 1.5rem;
   margin-top: 3rem;
   padding-top: 2.5rem;
@@ -722,13 +782,19 @@ span.lang-ar { display: none; }
   transition: background var(--trans-mid);
 }
 
-.rooms__header { margin-bottom: 4rem; }
+.rooms__header {
+  margin-bottom: 4rem;
+}
 
 .rooms__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: 2rem;
 }
+
+/* =========================
+   ROOM CARD
+========================= */
 
 .room-card {
   background: var(--card-bg);
@@ -736,7 +802,10 @@ span.lang-ar { display: none; }
   overflow: hidden;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--card-border);
-  transition: transform var(--trans-mid), box-shadow var(--trans-mid), background var(--trans-mid);
+  transition:
+    transform var(--trans-mid),
+    box-shadow var(--trans-mid),
+    background var(--trans-mid);
   display: flex;
   flex-direction: column;
 }
@@ -745,6 +814,10 @@ span.lang-ar { display: none; }
   transform: translateY(-7px);
   box-shadow: var(--card-shadow-hover);
 }
+
+/* =========================
+   IMAGE
+========================= */
 
 .room-card__image {
   height: 230px;
@@ -756,14 +829,22 @@ span.lang-ar { display: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
   transition: transform var(--trans-slow);
 }
 
-.room-card:hover .room-card__image img { transform: scale(1.07); }
+.room-card:hover .room-card__image img {
+  transform: scale(1.07);
+}
+
+/* =========================
+   BADGE
+========================= */
 
 .room-card__badge {
   position: absolute;
-  top: 1rem; right: 1rem;
+  top: 1rem;
+  inset-inline-end: 1rem;
   background: var(--gold);
   color: #fff;
   font-size: 0.62rem;
@@ -774,6 +855,10 @@ span.lang-ar { display: none; }
   border-radius: 50px;
   z-index: 2;
 }
+
+/* =========================
+   BODY
+========================= */
 
 .room-card__body {
   padding: 1.6rem;
@@ -786,54 +871,58 @@ span.lang-ar { display: none; }
   font-family: var(--font-serif);
   font-size: 1.25rem;
   color: var(--text-heading);
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem;
 }
 
 .room-card__desc {
   font-size: 0.88rem;
   color: var(--text-muted);
   line-height: 1.65;
-  margin-bottom: 1.2rem;
+  margin: 0 0 1.2rem;
   flex: 1;
 }
 
+/* =========================
+   META
+========================= */
 .room-card__meta {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 1.4rem;
-  padding: 1rem 0;
+  margin-bottom: 1.2rem;
+  padding: 0.75rem 0;
   border-top: 1px solid var(--card-border);
   border-bottom: 1px solid var(--card-border);
 }
 
-.room-card__meta-item { text-align: center; }
-
-.room-card__meta-icon {
-  font-size: 1rem;
+.room-card__meta .lang-en {
   display: block;
-  margin-bottom: 0.2rem;
-}
-
-.room-card__meta-label {
-  font-size: 0.62rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  display: block;
+  letter-spacing: 0.03em;
 }
 
-.room-card__meta-value {
-  font-size: 0.78rem;
-  color: var(--text-heading);
-  font-weight: 700;
+.room-card__meta .lang-ar {
+  display: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: var(--font-arabic);
+}
+
+#lang-toggle:checked ~ .site-wrapper .room-card__meta .lang-en {
+  display: none;
+}
+
+#lang-toggle:checked ~ .site-wrapper .room-card__meta .lang-ar {
   display: block;
 }
+/* =========================
+   FOOTER
+========================= */
 
 .room-card__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
 }
 
 .room-card__price-amount {
@@ -852,8 +941,47 @@ span.lang-ar { display: none; }
   letter-spacing: 0.1em;
 }
 
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .rooms {
+    padding: 3rem 1rem;
+  }
+
+  .rooms__header {
+    margin-bottom: 2.5rem;
+  }
+
+  .rooms__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .room-card__image {
+    height: 210px;
+  }
+
+  .room-card__body {
+    padding: 1.3rem;
+  }
+
+
+
+  .room-card__footer {
+    flex-wrap: wrap;
+  }
+  
+}
+
 /* ----------------------------------------------------------
-   14. DINING
+   14. DINING — redesigned cards
+   Image sits on top at a fixed, contained height; all text
+   lives in a solid-background content area below, so nothing
+   is read over a photo and contrast stays comfortable in both
+   themes.
    ---------------------------------------------------------- */
 .dining {
   padding: var(--section-pad);
@@ -867,79 +995,94 @@ span.lang-ar { display: none; }
 
 .dining__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 1.75rem;
   margin-top: 3.5rem;
 }
 
 .dining-card {
+  background: var(--card-bg);
   border-radius: var(--radius-md);
   overflow: hidden;
-  position: relative;
-  height: 420px;
   box-shadow: var(--card-shadow);
-  transition: transform var(--trans-mid);
+  border: 1px solid var(--card-border);
+  transition: transform var(--trans-mid), box-shadow var(--trans-mid), background var(--trans-mid);
+  display: flex;
+  flex-direction: column;
 }
 
-.dining-card:hover { transform: translateY(-5px); }
+.dining-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--card-shadow-hover);
+}
 
-.dining-card__img {
-  position: absolute;
-  inset: 0;
+.dining-card__media {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
+}
+
+.dining-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--trans-slow);
 }
 
-.dining-card:hover .dining-card__img { transform: scale(1.06); }
+.dining-card:hover .dining-card__media img { transform: scale(1.06); }
 
-.dining-card__overlay {
+.dining-card__tag {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.25) 55%, transparent 100%);
-  z-index: 1;
+  top: 0.9rem;
+  inset-inline-start: 0.9rem;
+  background: rgba(8,8,8,0.72);
+  color: var(--gold-pale);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.32rem 0.8rem;
+  border-radius: 50px;
+  border: 1px solid rgba(245,230,184,0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .dining-card__content {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 1.8rem;
-  z-index: 2;
-}
-
-.dining-card__tag {
-  display: inline-block;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold);
-  padding: 0.2rem 0.7rem;
-  border-radius: 50px;
-  margin-bottom: 0.7rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
 }
 
 .dining-card__name {
   font-family: var(--font-serif);
-  font-size: 1.3rem;
-  color: #fff;
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: var(--text-heading);
 }
 
 .dining-card__desc {
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.72);
-  line-height: 1.6;
-  margin-bottom: 0.7rem;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  flex: 1;
 }
 
 .dining-card__hours {
-  font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.76rem;
   color: var(--gold);
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding-top: 0.8rem;
+  margin-top: 0.4rem;
+  border-top: 1px solid var(--card-border);
 }
+
+.dining-card__hours .icon { width: 1rem; height: 1rem; }
 
 /* ----------------------------------------------------------
    15. FACILITIES
@@ -952,7 +1095,7 @@ span.lang-ar { display: none; }
 
 .facilities__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 2rem;
   margin-top: 3.5rem;
 }
@@ -1002,164 +1145,7 @@ span.lang-ar { display: none; }
 }
 
 /* ----------------------------------------------------------
-   16. EVENTS
-   ---------------------------------------------------------- */
-.events {
-  padding: var(--section-pad);
-  background: var(--bg-surface);
-  transition: background var(--trans-mid);
-}
-
-.events__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 3.5rem;
-}
-
-.event-card {
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: var(--card-shadow);
-  border: 1px solid var(--card-border);
-  transition: transform var(--trans-mid), box-shadow var(--trans-mid);
-  background: var(--card-bg);
-}
-
-.event-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--card-shadow-hover);
-}
-
-.event-card__image {
-  height: 260px;
-  overflow: hidden;
-  position: relative;
-}
-
-.event-card__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--trans-slow);
-}
-
-.event-card:hover .event-card__image img { transform: scale(1.05); }
-
-.event-card__capacity {
-  position: absolute;
-  top: 1rem; left: 1rem;
-  background: var(--gold);
-  color: #fff;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.28rem 0.8rem;
-  border-radius: 50px;
-  z-index: 2;
-}
-
-.event-card__body { padding: 1.8rem; }
-
-.event-card__name {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  color: var(--text-heading);
-  margin-bottom: 0.6rem;
-}
-
-.event-card__desc {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  line-height: 1.65;
-  margin-bottom: 1.2rem;
-}
-
-.event-card__features {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.event-card__feature {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold-border);
-  padding: 0.2rem 0.7rem;
-  border-radius: 50px;
-}
-
-/* ----------------------------------------------------------
-   17. GALLERY
-   ---------------------------------------------------------- */
-.gallery {
-  padding: var(--section-pad);
-  background: var(--bg-dark-section);
-  transition: background var(--trans-mid);
-}
-
-.gallery .section-title { color: #fff; }
-
-.gallery__grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.7rem;
-  margin-top: 3.5rem;
-}
-
-.gallery__item {
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  position: relative;
-}
-
-.gallery__item--wide  { grid-column: span 2; }
-.gallery__item--tall  { grid-row: span 2; }
-
-.gallery__item img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
-  transition: transform var(--trans-slow);
-}
-
-.gallery__item--wide img  { height: 220px; }
-.gallery__item--tall img  { height: calc(440px + 0.7rem); }
-
-.gallery__item:hover img { transform: scale(1.07); }
-
-.gallery__overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(10,18,35,0.58);
-  opacity: 0;
-  transition: opacity var(--trans-mid);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.gallery__item:hover .gallery__overlay { opacity: 1; }
-
-.gallery__overlay-label {
-  color: #fff;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255,255,255,0.6);
-  padding: 0.45rem 1.2rem;
-  border-radius: 50px;
-}
-
-/* ----------------------------------------------------------
-   18. TESTIMONIALS
+   16. TESTIMONIALS
    ---------------------------------------------------------- */
 .testimonials {
   padding: var(--section-pad);
@@ -1169,7 +1155,7 @@ span.lang-ar { display: none; }
 
 .testimonials__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 2rem;
   margin-top: 3.5rem;
 }
@@ -1195,15 +1181,15 @@ span.lang-ar { display: none; }
   color: var(--gold-pale);
   line-height: 0.5;
   position: absolute;
-  top: 1.8rem; left: 2rem;
+  top: 1.8rem; inset-inline-start: 2rem;
   font-weight: 700;
   user-select: none;
 }
 
 .testimonial-card__stars {
-  color: var(--gold);
-  font-size: 1rem;
-  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
   margin-bottom: 1rem;
   margin-top: 2rem;
 }
@@ -1245,7 +1231,7 @@ span.lang-ar { display: none; }
 }
 
 /* ----------------------------------------------------------
-   19. CONTACT
+   17. CONTACT
    ---------------------------------------------------------- */
 .contact {
   padding: var(--section-pad);
@@ -1255,8 +1241,8 @@ span.lang-ar { display: none; }
 
 .contact__inner {
   display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  gap: 5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  gap: var(--gap-lg);
   align-items: start;
 }
 
@@ -1277,6 +1263,7 @@ span.lang-ar { display: none; }
   align-items: center;
   justify-content: center;
   font-size: 1.15rem;
+  color: var(--gold);
   flex-shrink: 0;
   border: 1px solid var(--gold-border);
 }
@@ -1378,7 +1365,7 @@ span.lang-ar { display: none; }
 .form-group textarea { height: 130px; resize: vertical; }
 
 /* ----------------------------------------------------------
-   20. FOOTER
+   18. FOOTER
    ---------------------------------------------------------- */
 .footer {
   background: var(--footer-bg);
@@ -1389,7 +1376,7 @@ span.lang-ar { display: none; }
 
 .footer__top {
   display: grid;
-  grid-template-columns: 1.8fr 1fr 1fr 1.4fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 3rem;
   padding-bottom: 3.5rem;
   border-bottom: 1px solid rgba(255,255,255,0.07);
@@ -1452,7 +1439,7 @@ span.lang-ar { display: none; }
 .footer__col-title::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 0;
+  bottom: 0; inset-inline-start: 0;
   width: 28px; height: 1.5px;
   background: var(--gold);
 }
@@ -1462,9 +1449,9 @@ span.lang-ar { display: none; }
 .footer__links a {
   font-size: 0.87rem;
   color: rgba(255,255,255,0.5);
-  transition: color var(--trans-fast), padding-left var(--trans-fast);
+  transition: color var(--trans-fast), padding-inline-start var(--trans-fast);
 }
-.footer__links a:hover { color: var(--gold); padding-left: 4px; }
+.footer__links a:hover { color: var(--gold); padding-inline-start: 4px; }
 
 .footer__contact-item {
   display: flex;
@@ -1472,7 +1459,7 @@ span.lang-ar { display: none; }
   align-items: flex-start;
   margin-bottom: 0.9rem;
 }
-.footer__contact-icon { color: var(--gold); font-size: 0.9rem; margin-top: 2px; flex-shrink: 0; }
+.footer__contact-icon { color: var(--gold); font-size: 0.95rem; margin-top: 2px; flex-shrink: 0; }
 .footer__contact-text { font-size: 0.84rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
 
 .footer__bottom {
@@ -1492,7 +1479,7 @@ span.lang-ar { display: none; }
 .footer__bottom-links a:hover { color: var(--gold); }
 
 /* ----------------------------------------------------------
-   21. ANIMATIONS
+   19. ANIMATIONS
    ---------------------------------------------------------- */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-22px); }
@@ -1509,96 +1496,189 @@ span.lang-ar { display: none; }
   50%       { opacity: 1;   transform: scaleY(1.2); }
 }
 
-/* ----------------------------------------------------------
-   22. RESPONSIVE — TABLET (≤ 1100px)
-   ---------------------------------------------------------- */
-@media (max-width: 1100px) {
-  :root { --section-pad: 72px 0; }
+/* Subtle entrance animation for cards — plays once on load.
+   Using will-change: transform promotes the element to its own
+   compositor layer so the animation is GPU-driven and doesn't
+   cause layout recalculation on surrounding content. */
+.room-card,
+.dining-card,
+.facility-card,
+.testimonial-card {
+  will-change: transform;
+}
 
-  .navbar { padding: 1rem 2rem; }
-
-  .about__inner { grid-template-columns: 1fr; gap: 3rem; }
-  .about__image { height: 420px; }
-  .about__badge { bottom: -1rem; right: 0.5rem; }
-  .about__content { padding-right: 0; }
-
-  .rooms__grid { grid-template-columns: repeat(2, 1fr); }
-  .dining__grid { grid-template-columns: repeat(2, 1fr); }
-  .dining-card { height: 380px; }
-  .facilities__grid { grid-template-columns: repeat(2, 1fr); }
-  .events__grid { grid-template-columns: repeat(2, 1fr); }
-  .events__grid .event-card:last-child { grid-column: span 2; max-width: 520px; margin: 0 auto; }
-  .gallery__grid { grid-template-columns: repeat(3, 1fr); }
-  .testimonials__grid { grid-template-columns: repeat(2, 1fr); }
-  .contact__inner { grid-template-columns: 1fr; gap: 3rem; }
-  .footer__top { grid-template-columns: repeat(2, 1fr); }
+.btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* ----------------------------------------------------------
-   23. RESPONSIVE — MOBILE (≤ 768px)
+   20. RESPONSIVE — TABLET (≤ 1100px)
+   Grids above already reflow fluidly via auto-fit/minmax and
+   clamp()-based spacing, so only nav/image-height tweaks that
+   truly need a breakpoint remain here.
+   ---------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .about__content { padding-inline-end: 0; }
+}
+
+/* ----------------------------------------------------------
+   21. RESPONSIVE — MOBILE (≤ 768px)
    ---------------------------------------------------------- */
 @media (max-width: 768px) {
-  :root { --section-pad: 56px 0; }
+  .controls-bar { top: auto; bottom: 1.5rem; inset-inline-end: 1rem; transform: none; flex-direction: row; }
 
-  .controls-bar { top: auto; bottom: 1.5rem; right: 1rem; transform: none; flex-direction: row; }
-
-  .navbar { padding: 1rem 1.25rem; flex-wrap: wrap; }
+  .navbar { flex-wrap: nowrap; }
   .navbar__toggle-label { display: flex; order: 5; }
+
+  /* Hide desktop nav links and CTA — they live in the overlay */
   .navbar__links {
-    display: none;
-    order: 6;
-    width: 100%;
+    /* Full-screen side drawer */
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    inset-inline-start: auto;
+    width: min(80vw, 320px);
+    z-index: 1050;
+    background: var(--nav-bg);
     flex-direction: column;
     align-items: flex-start;
-    padding: 0.8rem 0;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 1.5rem 0 2rem;
+    border-inline-start: 1px solid rgba(184,134,11,0.2);
+    box-shadow: -6px 0 30px rgba(0,0,0,0.35);
+    /* Hidden: slides off-screen. Direction set via --drawer-hide variable
+       which RTL overrides to translateX(-110%). */
+    --drawer-hide: translateX(110%);
+    transform: var(--drawer-hide);
+    visibility: hidden;
+    transition: transform var(--trans-mid), visibility var(--trans-mid);
+    overflow-y: auto;
+  }
+
+  /* RTL: logical properties flip inset-inline-end:0 to the left side.
+     Override --drawer-hide so the hidden state slides off to the left. */
+  #lang-toggle:checked ~ .site-wrapper .navbar__links {
+    --drawer-hide: translateX(-110%);
+  }
+
+  /* Open state — same for both directions */
+  .navbar__toggle:checked ~ .navbar__links {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .navbar__links li { width: 100%; }
+
+  .navbar__links a {
+    display: block;
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    white-space: normal;
+  }
+  .navbar__links a::after { display: none; }
+
+  /* Close button — shown at top of overlay */
+  .navbar__close-item {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem 1rem 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+  .navbar__close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+    color: rgba(255,255,255,0.7);
+    transition: all var(--trans-fast);
+  }
+  .navbar__close-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* CTA inside mobile menu */
+  .navbar__menu-cta {
+    display: block;
+    padding: 1.5rem 1.5rem 0;
     border-top: 1px solid rgba(255,255,255,0.08);
     margin-top: 0.5rem;
-    gap: 0;
   }
-  .navbar__links a { width: 100%; padding: 0.65rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .navbar__menu-cta .btn { width: 100%; text-align: center; justify-content: center; }
+
+  /* Hide the desktop CTA button */
   .navbar__cta { display: none; }
-  .navbar__toggle:checked ~ .navbar__links { display: flex; }
+
+  /* Dimming backdrop behind the drawer */
+  .navbar__toggle:checked ~ .navbar__backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.5);
+    cursor: default;
+    animation: fadeIn 0.25s ease both;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* Scroll-driven close (progressive enhancement) */
+  @supports (animation-timeline: scroll()) {
+    .navbar__toggle:checked ~ .navbar__links {
+      animation: nav-close-on-scroll-flex 1ms linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 56px 57px;
+    }
+    .navbar__toggle:checked ~ .navbar__backdrop {
+      animation: nav-close-on-scroll-block 1ms linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 56px 57px;
+    }
+  }
 
   .hero__actions { flex-direction: column; align-items: center; }
-  .about__image { height: 300px; }
-  .about__stats { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .about__badge { bottom: -0.8rem; right: 0.5rem; padding: 1.2rem 1.4rem; }
+  .about__badge { bottom: -0.8rem; inset-inline-end: 0.5rem; padding: 1.2rem 1.4rem; }
   .about__badge-number { font-size: 2rem; }
 
-  .rooms__grid { grid-template-columns: 1fr; }
-  .dining__grid { grid-template-columns: 1fr; }
-  .facilities__grid { grid-template-columns: 1fr; }
-  .events__grid { grid-template-columns: 1fr; }
-  .events__grid .event-card:last-child { grid-column: span 1; max-width: 100%; }
-
-  .gallery__grid { grid-template-columns: repeat(2, 1fr); }
-  .gallery__item--wide { grid-column: span 2; }
-  .gallery__item--tall { grid-row: span 1; }
-  .gallery__item--tall img { height: 220px; }
-
-  .testimonials__grid { grid-template-columns: 1fr; }
   .contact__form { padding: 2rem 1.5rem; }
-  .footer__top { grid-template-columns: 1fr; gap: 2rem; }
   .footer__bottom { flex-direction: column; text-align: center; }
   .footer__bottom-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
 }
 
 /* ----------------------------------------------------------
-   24. RESPONSIVE — SMALL MOBILE (≤ 480px)
+   22. RESPONSIVE — SMALL MOBILE (≤ 480px)
    ---------------------------------------------------------- */
 @media (max-width: 480px) {
-  .container { padding: 0 1.25rem; }
-  .about__stats { grid-template-columns: 1fr; }
-  .gallery__grid { grid-template-columns: 1fr; }
-  .gallery__item--wide { grid-column: span 1; }
+  .container { padding-inline: 1rem; }
+  .rooms__header { margin-bottom: 2rem; }
+  .contact__form { padding: 1.5rem 1.25rem; }
+  .about__stats { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .footer__top { gap: 1.5rem; }
 }
 
 /* ----------------------------------------------------------
-   25. ACCESSIBILITY
+   23. ACCESSIBILITY
    ---------------------------------------------------------- */
+
+/* Visible keyboard focus ring on all interactive elements */
 :focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Minimum 44×44px touch target for controls */
+.theme-toggle-label,
+.lang-toggle-label,
+.navbar__toggle-label,
+.navbar__close-btn {
+  min-width: 44px;
+  min-height: 44px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1607,4 +1687,12 @@ span.lang-ar { display: none; }
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
+  .hero__label,
+  .hero__title,
+  .hero__tagline,
+  .hero__actions { animation: none; }
+  .hero__scroll-line { animation: none; }
+  .room-card, .dining-card, .facility-card, .testimonial-card {
+    will-change: auto;
+  }
 }

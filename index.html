@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="ResortLux — A premier 5-star luxury hotel offering world-class rooms, fine dining, and exceptional hospitality." />
   <title>ResortLux | Luxury 5-Star Hotel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Tajawal:wght@300;400;700&display=swap" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -21,26 +25,31 @@
   <input type="checkbox" id="lang-toggle"  />
 
   <!-- ── Floating controls ── -->
-  <div class="controls-bar" role="group" aria-label="Site controls">
-
-    <!-- Theme toggle -->
-    <label for="theme-toggle" class="theme-toggle-label" aria-label="Toggle dark and light theme" title="Toggle theme">
-      <span class="theme-icon-light" aria-hidden="true">☀️</span>
-      <span class="theme-icon-dark"  aria-hidden="true">🌙</span>
-    </label>
-
-    <!-- Language toggle -->
-    <label for="lang-toggle" class="lang-toggle-label" aria-label="Switch language between English and Arabic" title="Switch language">
-      <span class="lang-label-en">EN</span>
-      <span class="lang-label-ar">ع</span>
-    </label>
-
-  </div>
 
   <!-- ══════════════════════════════════════════════
        SITE WRAPPER — receives dark/RTL overrides
        ══════════════════════════════════════════════ -->
   <div class="site-wrapper">
+
+    <!-- Controls bar lives inside site-wrapper so that
+         #lang-toggle:checked ~ .site-wrapper .lang-label-* and
+         #theme-toggle:checked ~ .site-wrapper .theme-icon-* selectors
+         correctly reach the EN/AR label and sun/moon icon. -->
+    <div class="controls-bar" role="group" aria-label="Site controls">
+
+      <!-- Theme toggle -->
+      <label for="theme-toggle" class="theme-toggle-label" aria-label="Toggle dark and light theme" title="Toggle theme">
+        <span class="theme-icon-light icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/><line x1="4.6" y1="4.6" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.4" y2="19.4"/><line x1="4.6" y1="19.4" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.4" y2="4.6"/></svg></span>
+        <span class="theme-icon-dark icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" stroke="none"><path d="M20 14.3A8.4 8.4 0 0 1 9.7 4a7 7 0 1 0 10.3 10.3z"/></svg></span>
+      </label>
+
+      <!-- Language toggle -->
+      <label for="lang-toggle" class="lang-toggle-label" aria-label="Switch language between English and Arabic" title="Switch language">
+        <span class="lang-label-en">EN</span>
+        <span class="lang-label-ar">ع</span>
+      </label>
+
+    </div>
 
     <!-- ============================================================
          NAVIGATION
@@ -56,17 +65,31 @@
 
         <!-- Mobile hamburger -->
         <input type="checkbox" id="nav-toggle" class="navbar__toggle" aria-hidden="true" />
+        <label for="nav-toggle" class="navbar__backdrop" aria-hidden="true"></label>
         <label for="nav-toggle" class="navbar__toggle-label" aria-label="Toggle navigation">
           <span></span><span></span><span></span>
         </label>
 
-        <ul class="navbar__links" role="list">
+        <ul class="navbar__links" role="list" id="nav-menu">
+          <!-- Close button — only visible in mobile overlay -->
+          <li class="navbar__close-item" aria-hidden="true">
+            <label for="nav-toggle" class="navbar__close-btn" aria-label="Close navigation">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </label>
+          </li>
           <li><a href="#home">    <span class="lang-en">Home</span>            <span class="lang-ar" lang="ar">الرئيسية</span>    </a></li>
           <li><a href="#about">   <span class="lang-en">About</span>           <span class="lang-ar" lang="ar">عن الفندق</span>   </a></li>
           <li><a href="#rooms">   <span class="lang-en">Rooms &amp; Suites</span><span class="lang-ar" lang="ar">الغرف والأجنحة</span></a></li>
           <li><a href="#dining">  <span class="lang-en">Dining</span>          <span class="lang-ar" lang="ar">المطاعم</span>     </a></li>
           <li><a href="#facilities"><span class="lang-en">Facilities</span>    <span class="lang-ar" lang="ar">المرافق</span>     </a></li>
           <li><a href="#contact"> <span class="lang-en">Contact</span>         <span class="lang-ar" lang="ar">اتصل بنا</span>   </a></li>
+          <!-- CTA inside mobile menu -->
+          <li class="navbar__menu-cta">
+            <a href="#rooms" class="btn btn-gold">
+              <span class="lang-en">Explore Rooms</span>
+              <span class="lang-ar" lang="ar">استكشف الغرف</span>
+            </a>
+          </li>
         </ul>
 
         <div class="navbar__right">
@@ -135,12 +158,22 @@
             <!-- Image -->
             <div class="about__image-wrap">
               <div class="about__image">
-                <img
-                  src="https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=1200&fm=webp"
-                  alt="Grand ResortLux hotel lobby with marble floors and soaring atrium"
-                  loading="lazy"
-                  width="600" height="560"
-                />
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=1200&fm=avif"
+                  />
+                  <source
+                    type="image/webp"
+                    srcset="https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=1200&fm=webp"
+                  />
+                  <img
+                    src="https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=1200&fm=webp"
+                    alt="Grand ResortLux hotel lobby with marble floors and soaring atrium"
+                    loading="lazy"
+                    width="600" height="560"
+                  />
+                </picture>
               </div>
               <div class="about__badge" aria-label="Over 25 years of excellence">
                 <span class="about__badge-number">25+</span>
@@ -228,276 +261,334 @@
 
           <div class="rooms__grid">
 
-            <!-- Room 1 -->
-            <article class="room-card" aria-label="Deluxe Room">
-              <div class="room-card__image">
-                <img
-                  src="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                  alt="Deluxe Room with king bed and city view"
-                  loading="lazy" width="450" height="230"
-                />
-                <span class="room-card__badge lang-en">Popular</span>
-                <span class="room-card__badge lang-ar" lang="ar">الأكثر طلباً</span>
-              </div>
-              <div class="room-card__body">
-                <h3 class="room-card__name lang-en">Deluxe Room</h3>
-                <h3 class="room-card__name lang-ar" lang="ar">الغرفة الفاخرة</h3>
-                <p class="room-card__desc lang-en">A beautifully appointed room featuring warm tones, premium linens, and panoramic city views from floor-to-ceiling windows.</p>
-                <p class="room-card__desc lang-ar" lang="ar">غرفة رائعة الديكور بأنماط دافئة وأفخر المفروشات وإطلالات بانورامية على المدينة من نوافذ من الأرض للسقف.</p>
-                <div class="room-card__meta">
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">👤</span>
-                    <span class="room-card__meta-label lang-en">Guests</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">الضيوف</span>
-                    <span class="room-card__meta-value">2</span>
-                  </div>
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true"></span>
-                    <span class="room-card__meta-label lang-en">Size</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">المساحة</span>
-                    <span class="room-card__meta-value">38 m²</span>
-                  </div>
-                </div>
-                <div class="room-card__footer">
-                  <div>
-                    <span class="room-card__price-amount">$280</span>
-                    <span class="room-card__price-label lang-en">per night</span>
-                    <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
-                  </div>
-                  <a href="#rooms" class="btn btn-outline-gold">
-                    <span class="lang-en">View Details</span>
-                    <span class="lang-ar" lang="ar">التفاصيل</span>
-                  </a>
-                </div>
-              </div>
-            </article>
+  <!-- Room 1 -->
+  <article class="room-card" aria-label="Deluxe Room">
+    <div class="room-card__image">
+      <picture>
+        <source type="image/avif"
+          srcset="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif">
+        <source type="image/webp"
+          srcset="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp">
+        <img
+          src="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+          alt="Deluxe Room with king bed and city view"
+          loading="lazy"
+          width="450"
+          height="210">
+      </picture>
 
-            <!-- Room 2 -->
-            <article class="room-card" aria-label="Executive Room">
-              <div class="room-card__image">
-                <img
-                  src="https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                  alt="Executive Room with workspace and city view"
-                  loading="lazy" width="450" height="230"
-                />
-                <span class="room-card__badge lang-en">Business</span>
-                <span class="room-card__badge lang-ar" lang="ar">أعمال</span>
-              </div>
-              <div class="room-card__body">
-                <h3 class="room-card__name lang-en">Executive Room</h3>
-                <h3 class="room-card__name lang-ar" lang="ar">الغرفة التنفيذية</h3>
-                <p class="room-card__desc lang-en">Designed for the discerning business traveller, featuring a dedicated workspace, espresso machine, and Executive Lounge access.</p>
-                <p class="room-card__desc lang-ar" lang="ar">مصممة لرجل الأعمال الراقي، تتضمن مساحة عمل مخصصة وماكينة إسبريسو والوصول إلى الصالة التنفيذية.</p>
-                <div class="room-card__meta">
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">👤</span>
-                    <span class="room-card__meta-label lang-en">Guests</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">الضيوف</span>
-                    <span class="room-card__meta-value">2</span>
-                  </div>
+      <span class="room-card__badge lang-en">Popular</span>
+      <span class="room-card__badge lang-ar" lang="ar">الأكثر طلباً</span>
+    </div>
 
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">📐</span>
-                    <span class="room-card__meta-label lang-en">Size</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">المساحة</span>
-                    <span class="room-card__meta-value">45 m²</span>
-                  </div>
-                </div>
-                <div class="room-card__footer">
-                  <div>
-                    <span class="room-card__price-amount">$360</span>
-                    <span class="room-card__price-label lang-en">per night</span>
-                    <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
-                  </div>
-                  <a href="#rooms" class="btn btn-outline-gold">
-                    <span class="lang-en">View Details</span>
-                    <span class="lang-ar" lang="ar">التفاصيل</span>
-                  </a>
-                </div>
-              </div>
-            </article>
+    <div class="room-card__body">
 
-            <!-- Room 3 -->
-            <article class="room-card" aria-label="Garden View Room">
-              <div class="room-card__image">
-                <img
-                  src="https://images.pexels.com/photos/2440471/pexels-photo-2440471.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                  alt="Garden View Room overlooking manicured gardens"
-                  loading="lazy" width="450" height="230"
-                />
-                <span class="room-card__badge lang-en">Nature</span>
-                <span class="room-card__badge lang-ar" lang="ar">طبيعة</span>
-              </div>
-              <div class="room-card__body">
-                <h3 class="room-card__name lang-en">Garden View Room</h3>
-                <h3 class="room-card__name lang-ar" lang="ar">غرفة إطلالة الحديقة</h3>
-                <p class="room-card__desc lang-en">Wake to the tranquil sight of our private landscaped gardens. Earthy tones and natural materials create a serene retreat.</p>
-                <p class="room-card__desc lang-ar" lang="ar">استيقظ على مشهد حدائقنا الخاصة الهادئة. الألوان الترابية والمواد الطبيعية تخلق ملاذاً هادئاً.</p>
-                <div class="room-card__meta">
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">👤</span>
-                    <span class="room-card__meta-label lang-en">Guests</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">الضيوف</span>
-                    <span class="room-card__meta-value">2</span>
-                  </div>
+      <h3 class="room-card__name lang-en">Deluxe Room</h3>
+      <h3 class="room-card__name lang-ar" lang="ar">الغرفة الفاخرة</h3>
 
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">📐</span>
-                    <span class="room-card__meta-label lang-en">Size</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">المساحة</span>
-                    <span class="room-card__meta-value">40 m²</span>
-                  </div>
-                </div>
-                <div class="room-card__footer">
-                  <div>
-                    <span class="room-card__price-amount">$310</span>
-                    <span class="room-card__price-label lang-en">per night</span>
-                    <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
-                  </div>
-                  <a href="#rooms" class="btn btn-outline-gold">
-                    <span class="lang-en">View Details</span>
-                    <span class="lang-ar" lang="ar">التفاصيل</span>
-                  </a>
-                </div>
-              </div>
-            </article>
+      <p class="room-card__desc lang-en">
+        A beautifully appointed room featuring warm tones, premium linens, and panoramic city views from floor-to-ceiling windows.
+      </p>
 
-            <!-- Room 4 -->
-            <article class="room-card" aria-label="Deluxe Suite">
-              <div class="room-card__image">
-                <img
-                  src="https://images.pexels.com/photos/3201763/pexels-photo-3201763.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                  alt="Deluxe Suite with separate living area and soaking tub"
-                  loading="lazy" width="450" height="230"
-                />
-                <span class="room-card__badge lang-en">Suite</span>
-                <span class="room-card__badge lang-ar" lang="ar">جناح</span>
-              </div>
-              <div class="room-card__body">
-                <h3 class="room-card__name lang-en">Deluxe Suite</h3>
-                <h3 class="room-card__name lang-ar" lang="ar">الجناح الفاخر</h3>
-                <p class="room-card__desc lang-en">A spacious two-room suite offering a separate living area, marble bathroom with soaking tub, and premium minibar service.</p>
-                <p class="room-card__desc lang-ar" lang="ar">جناح فسيح من غرفتين يضم صالة معيشة منفصلة وحمام رخامي مع حوض استحمام وخدمة ميني بار مميزة.</p>
-                <div class="room-card__meta">
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">👤</span>
-                    <span class="room-card__meta-label lang-en">Guests</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">الضيوف</span>
-                    <span class="room-card__meta-value">3</span>
-                  </div>
+      <p class="room-card__desc lang-ar" lang="ar">
+        غرفة رائعة الديكور بأنماط دافئة وأفخر المفروشات وإطلالات بانورامية على المدينة من نوافذ من الأرض للسقف.
+      </p>
 
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">📐</span>
-                    <span class="room-card__meta-label lang-en">Size</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">المساحة</span>
-                    <span class="room-card__meta-value">68 m²</span>
-                  </div>
-                </div>
-                <div class="room-card__footer">
-                  <div>
-                    <span class="room-card__price-amount">$520</span>
-                    <span class="room-card__price-label lang-en">per night</span>
-                    <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
-                  </div>
-                  <a href="#rooms" class="btn btn-outline-gold">
-                    <span class="lang-en">View Details</span>
-                    <span class="lang-ar" lang="ar">التفاصيل</span>
-                  </a>
-                </div>
-              </div>
-            </article>
+      <div class="room-card__meta">
+        <span class="lang-en">2 Guests · 38 m²</span>
+        <span class="lang-ar" lang="ar">شخصان · 38 م²</span>
+      </div>
 
-            <!-- Room 5 -->
-            <article class="room-card" aria-label="Executive Suite">
-              <div class="room-card__image">
-                <img
-                  src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                  alt="Executive Suite with panoramic terrace and butler service"
-                  loading="lazy" width="450" height="230"
-                />
-                <span class="room-card__badge lang-en">Premium</span>
-                <span class="room-card__badge lang-ar" lang="ar">مميز</span>
-              </div>
-              <div class="room-card__body">
-                <h3 class="room-card__name lang-en">Executive Suite</h3>
-                <h3 class="room-card__name lang-ar" lang="ar">الجناح التنفيذي</h3>
-                <p class="room-card__desc lang-en">An elevated suite experience with private butler service, wraparound terrace views, and a bespoke pillow menu.</p>
-                <p class="room-card__desc lang-ar" lang="ar">تجربة جناح راقية مع خدمة خادم خاص وإطلالات شاملة على التراس وقائمة وسائد مخصصة.</p>
-                <div class="room-card__meta">
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">👤</span>
-                    <span class="room-card__meta-label lang-en">Guests</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">الضيوف</span>
-                    <span class="room-card__meta-value">4</span>
-                  </div>
+      <div class="room-card__footer">
+        <div class="room-card__price">
+          <span class="room-card__price-amount">$280</span>
+          <span class="room-card__price-label lang-en">per night</span>
+          <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
+        </div>
 
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">📐</span>
-                    <span class="room-card__meta-label lang-en">Size</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">المساحة</span>
-                    <span class="room-card__meta-value">95 m²</span>
-                  </div>
-                </div>
-                <div class="room-card__footer">
-                  <div>
-                    <span class="room-card__price-amount">$780</span>
-                    <span class="room-card__price-label lang-en">per night</span>
-                    <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
-                  </div>
-                  <a href="#rooms" class="btn btn-outline-gold">
-                    <span class="lang-en">View Details</span>
-                    <span class="lang-ar" lang="ar">التفاصيل</span>
-                  </a>
-                </div>
-              </div>
-            </article>
+        <a class="btn btn-outline-gold">
+          <span class="lang-en">View Details</span>
+          <span class="lang-ar" lang="ar">التفاصيل</span>
+        </a>
+      </div>
 
-            <!-- Room 6 -->
-            <article class="room-card" aria-label="Presidential Suite">
-              <div class="room-card__image">
-                <img
-                  src="https://images.pexels.com/photos/2029694/pexels-photo-2029694.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                  alt="Grand Presidential Suite with private pool and panoramic views"
-                  loading="lazy" width="450" height="230"
-                />
-                <span class="room-card__badge lang-en">Prestige</span>
-                <span class="room-card__badge lang-ar" lang="ar">رئاسي</span>
-              </div>
-              <div class="room-card__body">
-                <h3 class="room-card__name lang-en">Presidential Suite</h3>
-                <h3 class="room-card__name lang-ar" lang="ar">الجناح الرئاسي</h3>
-                <p class="room-card__desc lang-en">The pinnacle of luxury — a grand private residence with personal pool, private chef, and interiors curated by award-winning designers.</p>
-                <p class="room-card__desc lang-ar" lang="ar">قمة الفخامة — إقامة خاصة فارهة مع حمام سباحة خاص وطاهٍ شخصي وديكورات من تصميم مصممين حائزين على جوائز.</p>
-                <div class="room-card__meta">
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">👤</span>
-                    <span class="room-card__meta-label lang-en">Guests</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">الضيوف</span>
-                    <span class="room-card__meta-value">6</span>
-                  </div>
+    </div>
+  </article>
 
-                  <div class="room-card__meta-item">
-                    <span class="room-card__meta-icon" aria-hidden="true">📐</span>
-                    <span class="room-card__meta-label lang-en">Size</span>
-                    <span class="room-card__meta-label lang-ar" lang="ar">المساحة</span>
-                    <span class="room-card__meta-value">280 m²</span>
-                  </div>
-                </div>
-                <div class="room-card__footer">
-                  <div>
-                    <span class="room-card__price-amount">$2,400</span>
-                    <span class="room-card__price-label lang-en">per night</span>
-                    <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
-                  </div>
-                  <a href="#rooms" class="btn btn-outline-gold">
-                    <span class="lang-en">View Details</span>
-                    <span class="lang-ar" lang="ar">التفاصيل</span>
-                  </a>
-                </div>
-              </div>
-            </article>
 
-          </div><!-- /rooms__grid -->
+  <!-- Room 2 -->
+  <article class="room-card" aria-label="Executive Room">
+    <div class="room-card__image">
+      <picture>
+        <source type="image/avif"
+          srcset="https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif">
+        <source type="image/webp"
+          srcset="https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp">
+        <img
+          src="https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+          alt="Executive Room with workspace and city view"
+          loading="lazy"
+          width="450"
+          height="210">
+      </picture>
+
+      <span class="room-card__badge lang-en">Business</span>
+      <span class="room-card__badge lang-ar" lang="ar">أعمال</span>
+    </div>
+
+    <div class="room-card__body">
+
+      <h3 class="room-card__name lang-en">Executive Room</h3>
+      <h3 class="room-card__name lang-ar" lang="ar">الغرفة التنفيذية</h3>
+
+      <p class="room-card__desc lang-en">
+        Designed for the discerning business traveller, featuring a dedicated workspace, espresso machine, and Executive Lounge access.
+      </p>
+
+      <p class="room-card__desc lang-ar" lang="ar">
+        مصممة لرجل الأعمال الراقي، تتضمن مساحة عمل مخصصة وماكينة إسبريسو والوصول إلى الصالة التنفيذية.
+      </p>
+
+      <div class="room-card__meta">
+        <span class="lang-en">2 Guests · 45 m²</span>
+        <span class="lang-ar" lang="ar">شخصان · 45 م²</span>
+      </div>
+
+      <div class="room-card__footer">
+        <div class="room-card__price">
+          <span class="room-card__price-amount">$360</span>
+          <span class="room-card__price-label lang-en">per night</span>
+          <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
+        </div>
+
+        <a class="btn btn-outline-gold">
+          <span class="lang-en">View Details</span>
+          <span class="lang-ar" lang="ar">التفاصيل</span>
+        </a>
+      </div>
+
+    </div>
+  </article>
+
+
+  <!-- Room 3 -->
+  <article class="room-card" aria-label="Garden View Room">
+    <div class="room-card__image">
+      <picture>
+        <source type="image/avif"
+          srcset="https://images.pexels.com/photos/2440471/pexels-photo-2440471.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif">
+        <source type="image/webp"
+          srcset="https://images.pexels.com/photos/2440471/pexels-photo-2440471.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp">
+        <img
+          src="https://images.pexels.com/photos/2440471/pexels-photo-2440471.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+          alt="Garden View Room overlooking manicured gardens"
+          loading="lazy"
+          width="450"
+          height="210">
+      </picture>
+
+      <span class="room-card__badge lang-en">Nature</span>
+      <span class="room-card__badge lang-ar" lang="ar">طبيعة</span>
+    </div>
+
+    <div class="room-card__body">
+
+      <h3 class="room-card__name lang-en">Garden View Room</h3>
+      <h3 class="room-card__name lang-ar" lang="ar">غرفة إطلالة الحديقة</h3>
+
+      <p class="room-card__desc lang-en">
+        Wake to the tranquil sight of our private landscaped gardens. Earthy tones and natural materials create a serene retreat.
+      </p>
+
+      <p class="room-card__desc lang-ar" lang="ar">
+        استيقظ على مشهد حدائقنا الخاصة الهادئة. الألوان الترابية والمواد الطبيعية تخلق ملاذاً هادئاً.
+      </p>
+
+      <div class="room-card__meta">
+        <span class="lang-en">2 Guests · 40 m²</span>
+        <span class="lang-ar" lang="ar">شخصان · 40 م²</span>
+      </div>
+
+      <div class="room-card__footer">
+        <div class="room-card__price">
+          <span class="room-card__price-amount">$310</span>
+          <span class="room-card__price-label lang-en">per night</span>
+          <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
+        </div>
+
+        <a  class="btn btn-outline-gold">
+          <span class="lang-en">View Details</span>
+          <span class="lang-ar" lang="ar">التفاصيل</span>
+        </a>
+      </div>
+
+    </div>
+  </article>
+
+
+  <!-- Room 4 -->
+  <article class="room-card" aria-label="Deluxe Suite">
+    <div class="room-card__image">
+      <picture>
+        <source type="image/avif"
+          srcset="https://images.pexels.com/photos/3201763/pexels-photo-3201763.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif">
+        <source type="image/webp"
+          srcset="https://images.pexels.com/photos/3201763/pexels-photo-3201763.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp">
+        <img
+          src="https://images.pexels.com/photos/3201763/pexels-photo-3201763.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+          alt="Deluxe Suite with separate living area and soaking tub"
+          loading="lazy"
+          width="450"
+          height="210">
+      </picture>
+
+      <span class="room-card__badge lang-en">Suite</span>
+      <span class="room-card__badge lang-ar" lang="ar">جناح</span>
+    </div>
+
+    <div class="room-card__body">
+
+      <h3 class="room-card__name lang-en">Deluxe Suite</h3>
+      <h3 class="room-card__name lang-ar" lang="ar">الجناح الفاخر</h3>
+
+      <p class="room-card__desc lang-en">
+        A spacious two-room suite offering a separate living area, marble bathroom with soaking tub, and premium minibar service.
+      </p>
+
+      <p class="room-card__desc lang-ar" lang="ar">
+        جناح فسيح من غرفتين يضم صالة معيشة منفصلة وحمام رخامي مع حوض استحمام وخدمة ميني بار مميزة.
+      </p>
+
+      <div class="room-card__meta">
+        <span class="lang-en">3 Guests · 68 m²</span>
+        <span class="lang-ar" lang="ar">3 أشخاص · 68 م²</span>
+      </div>
+      <div class="room-card__footer">
+        <div class="room-card__price">
+          <span class="room-card__price-amount">$520</span>
+          <span class="room-card__price-label lang-en">per night</span>
+          <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
+        </div>
+
+        <a  class="btn btn-outline-gold">
+          <span class="lang-en">View Details</span>
+          <span class="lang-ar" lang="ar">التفاصيل</span>
+        </a>
+      </div>
+
+    </div>
+  </article>
+
+
+  <!-- Room 5 -->
+  <article class="room-card" aria-label="Executive Suite">
+    <div class="room-card__image">
+      <picture>
+        <source type="image/avif"
+          srcset="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif">
+        <source type="image/webp"
+          srcset="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp">
+        <img
+          src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+          alt="Executive Suite with panoramic terrace and butler service"
+          loading="lazy"
+          width="450"
+          height="210">
+      </picture>
+
+      <span class="room-card__badge lang-en">Premium</span>
+      <span class="room-card__badge lang-ar" lang="ar">مميز</span>
+    </div>
+
+    <div class="room-card__body">
+
+      <h3 class="room-card__name lang-en">Executive Suite</h3>
+      <h3 class="room-card__name lang-ar" lang="ar">الجناح التنفيذي</h3>
+
+      <p class="room-card__desc lang-en">
+        An elevated suite experience with private butler service, wraparound terrace views, and a bespoke pillow menu.
+      </p>
+
+      <p class="room-card__desc lang-ar" lang="ar">
+        تجربة جناح راقية مع خدمة خادم خاص وإطلالات شاملة على التراس وقائمة وسائد مخصصة.
+      </p>
+
+      <div class="room-card__meta">
+        <span class="lang-en">4 Guests · 95 m²</span>
+        <span class="lang-ar" lang="ar">4 أشخاص · 95 م²</span>
+      </div>
+
+      <div class="room-card__footer">
+        <div class="room-card__price">
+          <span class="room-card__price-amount">$780</span>
+          <span class="room-card__price-label lang-en">per night</span>
+          <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
+        </div>
+
+        <a  class="btn btn-outline-gold">
+          <span class="lang-en">View Details</span>
+          <span class="lang-ar" lang="ar">التفاصيل</span>
+        </a>
+      </div>
+
+    </div>
+  </article>
+
+
+  <!-- Room 6 -->
+  <article class="room-card" aria-label="Presidential Suite">
+    <div class="room-card__image">
+      <picture>
+        <source type="image/avif"
+          srcset="https://images.pexels.com/photos/2029694/pexels-photo-2029694.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif">
+        <source type="image/webp"
+          srcset="https://images.pexels.com/photos/2029694/pexels-photo-2029694.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp">
+        <img
+          src="https://images.pexels.com/photos/2029694/pexels-photo-2029694.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+          alt="Grand Presidential Suite with private pool and panoramic views"
+          loading="lazy"
+          width="450"
+          height="210">
+      </picture>
+
+      <span class="room-card__badge lang-en">Prestige</span>
+      <span class="room-card__badge lang-ar" lang="ar">رئاسي</span>
+    </div>
+
+    <div class="room-card__body">
+
+      <h3 class="room-card__name lang-en">Presidential Suite</h3>
+      <h3 class="room-card__name lang-ar" lang="ar">الجناح الرئاسي</h3>
+
+      <p class="room-card__desc lang-en">
+        The pinnacle of luxury — a grand private residence with personal pool, private chef, and interiors curated by award-winning designers.
+      </p>
+
+      <p class="room-card__desc lang-ar" lang="ar">
+        قمة الفخامة — إقامة خاصة فارهة مع حمام سباحة خاص وطاهٍ شخصي وديكورات من تصميم مصممين حائزين على جوائز.
+      </p>
+
+      <div class="room-card__meta">
+        <span class="lang-en">6 Guests · 280 m²</span>
+        <span class="lang-ar" lang="ar">6 أشخاص · 280 م²</span>
+      </div>
+      <div class="room-card__footer">
+        <div class="room-card__price">
+          <span class="room-card__price-amount">$2,400</span>
+          <span class="room-card__price-label lang-en">per night</span>
+          <span class="room-card__price-label lang-ar" lang="ar">في الليلة</span>
+        </div>
+
+        <a  class="btn btn-outline-gold">
+          <span class="lang-en">View Details</span>
+          <span class="lang-ar" lang="ar">التفاصيل</span>
+        </a>
+      </div>
+
+    </div>
+  </article>
+
+</div>
         </div>
       </section>
 
@@ -525,77 +616,93 @@
 
             <!-- Dining 1 -->
             <article class="dining-card" aria-label="Aurore Fine Dining Restaurant">
-              <img
-                class="dining-card__img"
-                src="https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                alt="Elegant candlelit fine dining restaurant interior"
-                loading="lazy" width="400" height="420"
-              />
-              <div class="dining-card__overlay" aria-hidden="true"></div>
-              <div class="dining-card__content">
+              <div class="dining-card__media">
+                <picture>
+                  <source type="image/avif" srcset="https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif" />
+                  <source type="image/webp" srcset="https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp" />
+                  <img
+                    src="https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+                    alt="Elegant candlelit fine dining restaurant interior"
+                    loading="lazy" width="400" height="220"
+                  />
+                </picture>
                 <span class="dining-card__tag lang-en">Fine Dining</span>
                 <span class="dining-card__tag lang-ar" lang="ar">مطبخ راقٍ</span>
+              </div>
+              <div class="dining-card__content">
                 <h3 class="dining-card__name">Aurore</h3>
                 <p class="dining-card__desc lang-en">Our flagship restaurant, offering a seasonally evolving tasting menu inspired by classical French techniques and the finest local produce.</p>
                 <p class="dining-card__desc lang-ar" lang="ar">مطعمنا الرئيسي، يقدم قائمة تذوق متغيرة موسمياً مستوحاة من الأساليب الفرنسية الكلاسيكية وأجود المنتجات المحلية.</p>
-                <p class="dining-card__hours">🕖 <span class="lang-en">Daily 7:00 PM – 11:00 PM</span><span class="lang-ar" lang="ar">يومياً ٧ م – ١١ م</span></p>
+                <p class="dining-card__hours"><span class="icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="lang-en">Daily 7:00 PM – 11:00 PM</span><span class="lang-ar" lang="ar">يومياً ٧ م – ١١ م</span></p>
               </div>
             </article>
 
             <!-- Dining 2 -->
             <article class="dining-card" aria-label="SkyTerrace Rooftop Lounge">
-              <img
-                class="dining-card__img"
-                src="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                alt="Rooftop lounge with city skyline view at sunset"
-                loading="lazy" width="400" height="420"
-              />
-              <div class="dining-card__overlay" aria-hidden="true"></div>
-              <div class="dining-card__content">
+              <div class="dining-card__media">
+                <picture>
+                  <source type="image/avif" srcset="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif" />
+                  <source type="image/webp" srcset="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp" />
+                  <img
+                    src="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+                    alt="Rooftop lounge with city skyline view at sunset"
+                    loading="lazy" width="400" height="220"
+                  />
+                </picture>
                 <span class="dining-card__tag lang-en">Rooftop Lounge</span>
                 <span class="dining-card__tag lang-ar" lang="ar">لاونج السطح</span>
+              </div>
+              <div class="dining-card__content">
                 <h3 class="dining-card__name">SkyTerrace</h3>
                 <p class="dining-card__desc lang-en">Perched on the 32nd floor, serving artisan cocktails and light bites against a breathtaking panoramic skyline.</p>
                 <p class="dining-card__desc lang-ar" lang="ar">على الطابق الثاني والثلاثين، يقدم كوكتيلات حرفية وخفيفات أمام أفق بانورامي خلاب.</p>
-                <p class="dining-card__hours">🕓 <span class="lang-en">Daily 4:00 PM – 2:00 AM</span><span class="lang-ar" lang="ar">يومياً ٤ م – ٢ ص</span></p>
+                <p class="dining-card__hours"><span class="icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="lang-en">Daily 4:00 PM – 2:00 AM</span><span class="lang-ar" lang="ar">يومياً ٤ م – ٢ ص</span></p>
               </div>
             </article>
 
             <!-- Dining 3 -->
             <article class="dining-card" aria-label="Al-Andalus Arabic Restaurant">
-              <img
-                class="dining-card__img"
-                src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                alt="Richly decorated Arabic restaurant with traditional lanterns"
-                loading="lazy" width="400" height="420"
-              />
-              <div class="dining-card__overlay" aria-hidden="true"></div>
-              <div class="dining-card__content">
+              <div class="dining-card__media">
+                <picture>
+                  <source type="image/avif" srcset="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif" />
+                  <source type="image/webp" srcset="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp" />
+                  <img
+                    src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+                    alt="Richly decorated Arabic restaurant with traditional lanterns"
+                    loading="lazy" width="400" height="220"
+                  />
+                </picture>
                 <span class="dining-card__tag lang-en">Arabic Cuisine</span>
                 <span class="dining-card__tag lang-ar" lang="ar">المطبخ العربي</span>
+              </div>
+              <div class="dining-card__content">
                 <h3 class="dining-card__name">Al-Andalus</h3>
                 <p class="dining-card__desc lang-en">A celebration of the Levant — traditional mezze, open-fire grills, and fragrant slow-cooked dishes rooted in centuries of culinary tradition.</p>
                 <p class="dining-card__desc lang-ar" lang="ar">احتفالٌ بالمطبخ الشامي — المقبلات التقليدية والمشاوي على نار حية والأطباق العطرية المطبوخة ببطء.</p>
-                <p class="dining-card__hours">🕛 <span class="lang-en">Daily 12:00 PM – 11:30 PM</span><span class="lang-ar" lang="ar">يومياً ١٢ ظ – ١١:٣٠ م</span></p>
+                <p class="dining-card__hours"><span class="icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="lang-en">Daily 12:00 PM – 11:30 PM</span><span class="lang-ar" lang="ar">يومياً ١٢ ظ – ١١:٣٠ م</span></p>
               </div>
             </article>
 
             <!-- Dining 4 -->
             <article class="dining-card" aria-label="Petite Maison Café and Bakery">
-              <img
-                class="dining-card__img"
-                src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
-                alt="Charming café with fresh pastries and artisan coffee"
-                loading="lazy" width="400" height="420"
-              />
-              <div class="dining-card__overlay" aria-hidden="true"></div>
-              <div class="dining-card__content">
+              <div class="dining-card__media">
+                <picture>
+                  <source type="image/avif" srcset="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=900&fm=avif" />
+                  <source type="image/webp" srcset="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp" />
+                  <img
+                    src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=900&fm=webp"
+                    alt="Charming café with fresh pastries and artisan coffee"
+                    loading="lazy" width="400" height="220"
+                  />
+                </picture>
                 <span class="dining-card__tag lang-en">Café &amp; Bakery</span>
                 <span class="dining-card__tag lang-ar" lang="ar">مقهى ومخبز</span>
+              </div>
+              <div class="dining-card__content">
                 <h3 class="dining-card__name">Petite Maison</h3>
                 <p class="dining-card__desc lang-en">Freshly baked viennoiseries, single-origin coffees, and light lunch fare in a warm, sunlit setting.</p>
                 <p class="dining-card__desc lang-ar" lang="ar">معجنات طازجة وقهوة من مصدر واحد ووجبات غداء خفيفة في أجواء دافئة ومشمسة.</p>
-                <p class="dining-card__hours">🕡 <span class="lang-en">Daily 6:30 AM – 6:00 PM</span><span class="lang-ar" lang="ar">يومياً ٦:٣٠ ص – ٦ م</span></p>
+                <p class="dining-card__hours"><span class="icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="lang-en">Daily 6:30 AM – 6:00 PM</span><span class="lang-ar" lang="ar">يومياً ٦:٣٠ ص – ٦ م</span></p>
               </div>
             </article>
 
@@ -626,12 +733,16 @@
           <div class="facilities__grid">
 
             <article class="facility-card" aria-label="Infinity Swimming Pool">
-              <img
-                class="facility-card__img"
-                src="https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
-                alt="Infinity pool at sunset with city skyline in background"
-                loading="lazy" width="400" height="200"
-              />
+              <picture>
+                <source type="image/avif" srcset="https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg?auto=compress&cs=tinysrgb&w=800&fm=avif" />
+                <source type="image/webp" srcset="https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp" />
+                <img
+                  class="facility-card__img"
+                  src="https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
+                  alt="Infinity pool at sunset with city skyline in background"
+                  loading="lazy" width="400" height="200"
+                />
+              </picture>
               <div class="facility-card__body">
                 <h3 class="facility-card__name lang-en">Infinity Pool</h3>
                 <h3 class="facility-card__name lang-ar" lang="ar">حمام السباحة اللانهائي</h3>
@@ -641,12 +752,16 @@
             </article>
 
             <article class="facility-card" aria-label="Spa and Wellness">
-              <img
-                class="facility-card__img"
-                src="https://images.pexels.com/photos/17570403/pexels-photo-17570403.jpeg"
-                alt="Luxury spa treatment room with ambient lighting and marble surfaces"
-                loading="lazy" width="400" height="200"
-              />
+              <picture>
+                <source type="image/avif" srcset="https://images.pexels.com/photos/17570403/pexels-photo-17570403.jpeg?fm=avif" />
+                <source type="image/webp" srcset="https://images.pexels.com/photos/17570403/pexels-photo-17570403.jpeg?fm=webp" />
+                <img
+                  class="facility-card__img"
+                  src="https://images.pexels.com/photos/17570403/pexels-photo-17570403.jpeg"
+                  alt="Luxury spa treatment room with ambient lighting and marble surfaces"
+                  loading="lazy" width="400" height="200"
+                />
+              </picture>
               <div class="facility-card__body">
                 <h3 class="facility-card__name lang-en">Spa &amp; Wellness</h3>
                 <h3 class="facility-card__name lang-ar" lang="ar">السبا والعافية</h3>
@@ -656,12 +771,16 @@
             </article>
 
             <article class="facility-card" aria-label="Fitness Center">
-              <img
-                class="facility-card__img"
-                src="https://images.pexels.com/photos/1552252/pexels-photo-1552252.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
-                alt="State-of-the-art hotel fitness center with modern equipment"
-                loading="lazy" width="400" height="200"
-              />
+              <picture>
+                <source type="image/avif" srcset="https://images.pexels.com/photos/1552252/pexels-photo-1552252.jpeg?auto=compress&cs=tinysrgb&w=800&fm=avif" />
+                <source type="image/webp" srcset="https://images.pexels.com/photos/1552252/pexels-photo-1552252.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp" />
+                <img
+                  class="facility-card__img"
+                  src="https://images.pexels.com/photos/1552252/pexels-photo-1552252.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
+                  alt="State-of-the-art hotel fitness center with modern equipment"
+                  loading="lazy" width="400" height="200"
+                />
+              </picture>
               <div class="facility-card__body">
                 <h3 class="facility-card__name lang-en">Fitness Center</h3>
                 <h3 class="facility-card__name lang-ar" lang="ar">مركز اللياقة البدنية</h3>
@@ -671,12 +790,16 @@
             </article>
 
             <article class="facility-card" aria-label="Business Lounge">
-              <img
-                class="facility-card__img"
-                src="https://images.pexels.com/photos/260931/pexels-photo-260931.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
-                alt="Sophisticated hotel business lounge with private meeting pods"
-                loading="lazy" width="400" height="200"
-              />
+              <picture>
+                <source type="image/avif" srcset="https://images.pexels.com/photos/260931/pexels-photo-260931.jpeg?auto=compress&cs=tinysrgb&w=800&fm=avif" />
+                <source type="image/webp" srcset="https://images.pexels.com/photos/260931/pexels-photo-260931.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp" />
+                <img
+                  class="facility-card__img"
+                  src="https://images.pexels.com/photos/260931/pexels-photo-260931.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
+                  alt="Sophisticated hotel business lounge with private meeting pods"
+                  loading="lazy" width="400" height="200"
+                />
+              </picture>
               <div class="facility-card__body">
                 <h3 class="facility-card__name lang-en">Business Lounge</h3>
                 <h3 class="facility-card__name lang-ar" lang="ar">صالة الأعمال</h3>
@@ -686,12 +809,16 @@
             </article>
 
             <article class="facility-card" aria-label="Private Garden">
-              <img
-                class="facility-card__img"
-                src="https://images.pexels.com/photos/462235/pexels-photo-462235.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
-                alt="Serene Japanese-inspired private hotel garden with koi pond"
-                loading="lazy" width="400" height="200"
-              />
+              <picture>
+                <source type="image/avif" srcset="https://images.pexels.com/photos/462235/pexels-photo-462235.jpeg?auto=compress&cs=tinysrgb&w=800&fm=avif" />
+                <source type="image/webp" srcset="https://images.pexels.com/photos/462235/pexels-photo-462235.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp" />
+                <img
+                  class="facility-card__img"
+                  src="https://images.pexels.com/photos/462235/pexels-photo-462235.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
+                  alt="Serene Japanese-inspired private hotel garden with koi pond"
+                  loading="lazy" width="400" height="200"
+                />
+              </picture>
               <div class="facility-card__body">
                 <h3 class="facility-card__name lang-en">Private Garden</h3>
                 <h3 class="facility-card__name lang-ar" lang="ar">الحديقة الخاصة</h3>
@@ -701,12 +828,16 @@
             </article>
 
             <article class="facility-card" aria-label="Free Wi-Fi">
-              <img
-                class="facility-card__img"
-                src="https://images.pexels.com/photos/1045541/pexels-photo-1045541.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
-                alt="Hotel guest relaxing with laptop and high-speed Wi-Fi connectivity"
-                loading="lazy" width="400" height="200"
-              />
+              <picture>
+                <source type="image/avif" srcset="https://images.pexels.com/photos/1045541/pexels-photo-1045541.jpeg?auto=compress&cs=tinysrgb&w=800&fm=avif" />
+                <source type="image/webp" srcset="https://images.pexels.com/photos/1045541/pexels-photo-1045541.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp" />
+                <img
+                  class="facility-card__img"
+                  src="https://images.pexels.com/photos/1045541/pexels-photo-1045541.jpeg?auto=compress&cs=tinysrgb&w=800&fm=webp"
+                  alt="Hotel guest relaxing with laptop and high-speed Wi-Fi connectivity"
+                  loading="lazy" width="400" height="200"
+                />
+              </picture>
               <div class="facility-card__body">
                 <h3 class="facility-card__name lang-en">Free Wi-Fi</h3>
                 <h3 class="facility-card__name lang-ar" lang="ar">واي فاي مجاني</h3>
@@ -718,9 +849,6 @@
           </div>
         </div>
       </section>
-
-
-
 
 
       <!-- ============================================================
@@ -746,7 +874,13 @@
 
             <article class="testimonial-card" aria-label="Review by Isabella Fontaine">
               <span class="testimonial-card__quote" aria-hidden="true">"</span>
-              <div class="testimonial-card__stars" aria-label="5 out of 5 stars" role="img">★★★★★</div>
+              <div class="testimonial-card__stars" aria-label="5 out of 5 stars" role="img">
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+              </div>
               <blockquote class="testimonial-card__text lang-en">"ResortLux is in a category entirely of its own. The moment our butler greeted us by name at the entrance, we knew this was something extraordinary. The spa alone was worth the journey."</blockquote>
               <blockquote class="testimonial-card__text lang-ar" lang="ar">"ريزورت لوكس في فئة خاصة به تماماً. منذ اللحظة التي استقبلنا فيها الخادم باسمنا عند المدخل، علمنا أن هذا شيء استثنائي. السبا وحده يستحق الرحلة."</blockquote>
               <div class="testimonial-card__author">
@@ -761,7 +895,13 @@
 
             <article class="testimonial-card" aria-label="Review by James R. Whitmore">
               <span class="testimonial-card__quote" aria-hidden="true">"</span>
-              <div class="testimonial-card__stars" aria-label="5 out of 5 stars" role="img">★★★★★</div>
+              <div class="testimonial-card__stars" aria-label="5 out of 5 stars" role="img">
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+              </div>
               <blockquote class="testimonial-card__text lang-en">"We hosted our annual leadership summit at the Sapphire Conference Hall and were genuinely impressed. The AV was flawless, the catering exceptional, and the event team anticipated every detail."</blockquote>
               <blockquote class="testimonial-card__text lang-ar" lang="ar">"استضفنا قمتنا القيادية السنوية في قاعة الياقوت وأُعجبنا حقاً. كان نظام الصوت والصورة لا تشوبه شائبة والضيافة استثنائية وفريق الفعاليات توقّع كل التفاصيل."</blockquote>
               <div class="testimonial-card__author">
@@ -776,7 +916,13 @@
 
             <article class="testimonial-card" aria-label="Review by Nour Al-Rashidi">
               <span class="testimonial-card__quote" aria-hidden="true">"</span>
-              <div class="testimonial-card__stars" aria-label="5 out of 5 stars" role="img">★★★★★</div>
+              <div class="testimonial-card__stars" aria-label="5 out of 5 stars" role="img">
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+                <svg class="icon star-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5 4.6 1.5 6.8L12 17l-6.2 3.3 1.5-6.8-5-4.6 6.8-.6z"/></svg>
+              </div>
               <blockquote class="testimonial-card__text lang-en">"The Presidential Suite exceeded every expectation. From the private terrace at sunrise to the extraordinary cuisine at Al-Andalus, our anniversary stay was simply unforgettable."</blockquote>
               <blockquote class="testimonial-card__text lang-ar" lang="ar">"الجناح الرئاسي فاق كل التوقعات. من التراس الخاص عند الفجر إلى المطبخ الاستثنائي في الأندلس، كانت إقامتنا في الذكرى السنوية لا تُنسى ببساطة."</blockquote>
               <div class="testimonial-card__author">
@@ -826,7 +972,7 @@
 
               <ul class="contact__info-list">
                 <li class="contact__info-item">
-                  <div class="contact__info-icon" aria-hidden="true">📍</div>
+                  <div class="contact__info-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/></svg></div>
                   <div>
                     <p class="contact__info-label lang-en">Address</p>
                     <p class="contact__info-label lang-ar" lang="ar">العنوان</p>
@@ -837,7 +983,7 @@
                   </div>
                 </li>
                 <li class="contact__info-item">
-                  <div class="contact__info-icon" aria-hidden="true">📞</div>
+                  <div class="contact__info-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8c1.3 2.6 3.4 4.7 6 6l2-2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.9c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1l-2 2z"/></svg></div>
                   <div>
                     <p class="contact__info-label lang-en">Phone</p>
                     <p class="contact__info-label lang-ar" lang="ar">الهاتف</p>
@@ -845,7 +991,7 @@
                   </div>
                 </li>
                 <li class="contact__info-item">
-                  <div class="contact__info-icon" aria-hidden="true">✉️</div>
+                  <div class="contact__info-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></div>
                   <div>
                     <p class="contact__info-label lang-en">Email</p>
                     <p class="contact__info-label lang-ar" lang="ar">البريد الإلكتروني</p>
@@ -853,7 +999,7 @@
                   </div>
                 </li>
                 <li class="contact__info-item">
-                  <div class="contact__info-icon" aria-hidden="true">🕐</div>
+                  <div class="contact__info-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></div>
                   <div>
                     <p class="contact__info-label lang-en">Hours</p>
                     <p class="contact__info-label lang-ar" lang="ar">ساعات العمل</p>
@@ -972,20 +1118,20 @@
             <h3 class="footer__col-title lang-en">Contact</h3>
             <h3 class="footer__col-title lang-ar" lang="ar">التواصل</h3>
             <div class="footer__contact-item">
-              <span class="footer__contact-icon">📍</span>
+              <span class="footer__contact-icon icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/></svg></span>
               <p class="footer__contact-text lang-en">12 Grand Boulevard, Prestige Quarter, Dubai, UAE</p>
               <p class="footer__contact-text lang-ar" lang="ar">١٢ شارع غراند، حي البريستيج، دبي</p>
             </div>
             <div class="footer__contact-item">
-              <span class="footer__contact-icon">📞</span>
+              <span class="footer__contact-icon icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8c1.3 2.6 3.4 4.7 6 6l2-2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.9c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1l-2 2z"/></svg></span>
               <p class="footer__contact-text"><a href="tel:+97142000000" style="color:inherit;">+971 4 200 0000</a></p>
             </div>
             <div class="footer__contact-item">
-              <span class="footer__contact-icon">✉️</span>
+              <span class="footer__contact-icon icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></span>
               <p class="footer__contact-text"><a href="mailto:hello@resortlux.com" style="color:inherit;">hello@resortlux.com</a></p>
             </div>
             <div class="footer__contact-item">
-              <span class="footer__contact-icon">🕐</span>
+              <span class="footer__contact-icon icon-wrap" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
               <p class="footer__contact-text lang-en">Concierge: 24 Hours, 7 Days</p>
               <p class="footer__contact-text lang-ar" lang="ar">كونسيرج: ٢٤ ساعة، ٧ أيام</p>
             </div>
