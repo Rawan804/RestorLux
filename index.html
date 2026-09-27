@@ -58,7 +58,8 @@
       <nav class="navbar" aria-label="Main navigation">
 
         <a href="#home" class="navbar__logo" aria-label="ResortLux homepage">
-          <span class="navbar__logo-name">Resort<span>Lux</span></span>
+          <span class="navbar__logo-name lang-en">Resort<span class="text-gold-inline">Lux</span></span>
+          <span class="navbar__logo-name lang-ar" lang="ar">ريزورت<span class="text-gold-inline">لوكس</span></span>
           <span class="navbar__logo-tagline lang-en">Luxury Collection</span>
           <span class="navbar__logo-tagline lang-ar" lang="ar">مجموعة الفخامة</span>
         </a>
@@ -72,11 +73,7 @@
 
         <ul class="navbar__links" role="list" id="nav-menu">
           <!-- Close button — only visible in mobile overlay -->
-          <li class="navbar__close-item" aria-hidden="true">
-            <label for="nav-toggle" class="navbar__close-btn" aria-label="Close navigation">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
-            </label>
-          </li>
+       
           <li><a href="#home">    <span class="lang-en">Home</span>            <span class="lang-ar" lang="ar">الرئيسية</span>    </a></li>
           <li><a href="#about">   <span class="lang-en">About</span>           <span class="lang-ar" lang="ar">عن الفندق</span>   </a></li>
           <li><a href="#rooms">   <span class="lang-en">Rooms &amp; Suites</span><span class="lang-ar" lang="ar">الغرف والأجنحة</span></a></li>
@@ -118,7 +115,8 @@
           <span class="hero__label lang-ar" lang="ar">مرحباً بكم في</span>
 
           <h1 id="hero-title" class="hero__title">
-            Resort<span>Lux</span>
+            <span class="lang-en">Resort<span class="text-gold-block">Lux</span></span>
+            <span class="lang-ar" lang="ar">ريزورت<span class="text-gold-block">لوكس</span></span>
           </h1>
 
           <p class="hero__tagline lang-en">
@@ -217,9 +215,9 @@
               <!-- Stats -->
               <div class="about__stats" aria-label="Hotel highlights">
                 <div class="about__stat">
-                  <span class="about__stat-number">5 ★</span>
-                  <span class="about__stat-label lang-en">Star Experience</span>
-                  <span class="about__stat-label lang-ar" lang="ar">تجربة نجوم</span>
+                  <span class="about__stat-number">5★</span>
+                  <span class="about__stat-label lang-en">Perfect Experience</span>
+                  <span class="about__stat-label lang-ar" lang="ar">تجربة استثنائية</span>
                 </div>
                 <div class="about__stat">
                   <span class="about__stat-number">120+</span>
@@ -966,7 +964,8 @@
             <div>
               <span class="section-label lang-en">Our Address</span>
               <span class="section-label lang-ar" lang="ar">عنواننا</span>
-              <h3 style="font-family:var(--font-serif);font-size:1.6rem;color:var(--text-heading);margin-bottom:0.4rem;">ResortLux</h3>
+              <h3 class="contact__brand-title lang-en">ResortLux</h3>
+              <h3 class="contact__brand-title lang-ar" lang="ar">ريزورت لوكس</h3>
               <p style="color:var(--text-muted);font-size:0.92rem;" class="lang-en">Where elegance is a way of life.</p>
               <p style="color:var(--text-muted);font-size:0.92rem;" class="lang-ar" lang="ar">حيث الأناقة أسلوب حياة.</p>
 
@@ -1072,7 +1071,8 @@
 
           <!-- Brand -->
           <div>
-            <div class="footer__brand-name">Resort<span>Lux</span></div>
+            <div class="footer__brand-name lang-en">Resort<span class="text-gold-inline">Lux</span></div>
+            <div class="footer__brand-name lang-ar" lang="ar">ريزورت<span class="text-gold-inline">لوكس</span></div>
             <div class="footer__brand-sub lang-en">Luxury Collection</div>
             <div class="footer__brand-sub lang-ar" lang="ar">مجموعة الفخامة</div>
             <p class="footer__brand-desc lang-en">A sanctuary of refined elegance in the heart of the city. Where exceptional service and timeless design create memories that last a lifetime.</p>
@@ -1141,7 +1141,7 @@
 
         <div class="footer__bottom">
           <p class="footer__copy">
-            &copy; 2026 <span>ResortLux</span>.
+           &copy; <span id="current-year"></span> <span class="footer__copy-brand lang-en">ResortLux</span><span class="footer__copy-brand lang-ar" lang="ar">ريزورت لوكس</span>.
             <span class="lang-en">All rights reserved.</span>
             <span class="lang-ar" lang="ar">جميع الحقوق محفوظة.</span>
           </p>
